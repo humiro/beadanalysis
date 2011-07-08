@@ -1,0 +1,112 @@
+function  [zerolp zerolpsd zerolpcv zerocaoi zerocaoisd zerocaoicv] = zerounknown(folder,exposures)
+%UNTITLED Summary of this function goes here
+%   Detailed explanation goes here
+
+%create matrices to store LP values
+
+zerolp=zeros(8,numel(exposures));
+
+zerolpsd=zeros(8,numel(exposures));
+
+%create matrices to store LP CV values
+zerolpcv=zeros(8,numel(exposures));
+
+%create matrices to store CAOI values
+zerocaoi=zeros(8,numel(exposures));
+
+%create matrices to store CAOI SD values
+zerocaoisd=zeros(8,numel(exposures));
+
+%create matrices to store CAOI CV values
+zerocaoicv=zeros(8,numel(exposures));
+
+
+locofsumfiles=dir(folder);
+% storelocations= cell(1,numel(locofsumfiles));
+testlc= '\0.0 ngperml\Results\';
+fpofname=strcat(folder,testlc);
+summaryfiles=dir(fullfile(fpofname,'*summary*.txt'));
+storedfiles=cell(1,numel(summaryfiles));
+for h = 1:numel(summaryfiles) 
+    storedfiles{h} = summaryfiles(h).name;
+end 
+for t=1:numel(summaryfiles)
+    storedfilename=char(strcat(fpofname,storedfiles(t)));
+    sumlines=textread(storedfilename,'%s','delimiter',' ');
+            %store LP values
+            zerolp(1,t)=str2double(char(sumlines(11)));
+            zerolp(2,t)=str2double(char(sumlines(20)));
+            zerolp(3,t)=str2double(char(sumlines(29)));
+            zerolp(4,t)=str2double(char(sumlines(38)));
+            zerolp(5,t)=str2double(char(sumlines(47)));
+            zerolp(6,t)=str2double(char(sumlines(56)));
+            zerolp(7,t)=str2double(char(sumlines(65)));
+            zerolp(8,t)=str2double(char(sumlines(74)));
+            %store LP SD values
+            zerolpsd(1,t)=str2double(char(sumlines(12)));
+            zerolpsd(2,t)=str2double(char(sumlines(21)));
+            zerolpsd(3,t)=str2double(char(sumlines(30)));
+            zerolpsd(4,t)=str2double(char(sumlines(39)));
+            zerolpsd(5,t)=str2double(char(sumlines(48)));
+            zerolpsd(6,t)=str2double(char(sumlines(57)));
+            zerolpsd(7,t)=str2double(char(sumlines(66)));
+            zerolpsd(8,t)=str2double(char(sumlines(75)));
+            %store LP CV values
+            zerolpcv(1,t)=str2double(char(sumlines(13)));
+            zerolpcv(2,t)=str2double(char(sumlines(22)));
+            zerolpcv(3,t)=str2double(char(sumlines(31)));
+            zerolpcv(4,t)=str2double(char(sumlines(40)));
+            zerolpcv(5,t)=str2double(char(sumlines(49)));
+            zerolpcv(6,t)=str2double(char(sumlines(58)));
+            zerolpcv(7,t)=str2double(char(sumlines(67)));
+            zerolpcv(8,t)=str2double(char(sumlines(76)));
+            %store CAOI values
+            zerocaoi(1,t)=str2double(char(sumlines(14)));
+            zerocaoi(2,t)=str2double(char(sumlines(23)));
+            zerocaoi(3,t)=str2double(char(sumlines(32)));
+            zerocaoi(4,t)=str2double(char(sumlines(41)));
+            zerocaoi(5,t)=str2double(char(sumlines(50)));
+            zerocaoi(6,t)=str2double(char(sumlines(59)));
+            zerocaoi(7,t)=str2double(char(sumlines(68)));
+            zerocaoi(8,t)=str2double(char(sumlines(77)));
+            %store CAOI SD values
+            zerocaoisd(1,t)=str2double(char(sumlines(15)));
+            zerocaoisd(2,t)=str2double(char(sumlines(24)));
+            zerocaoisd(3,t)=str2double(char(sumlines(333)));
+            zerocaoisd(4,t)=str2double(char(sumlines(41)));
+            zerocaoisd(5,t)=str2double(char(sumlines(50)));
+            zerocaoisd(6,t)=str2double(char(sumlines(59)));
+            zerocaoisd(7,t)=str2double(char(sumlines(68)));
+            zerocaoisd(8,t)=str2double(char(sumlines(77)));
+            %store CAOI CV values
+            grp1caoicv(r,t)=str2double(char(sumlines(16)));
+            grp2caoicv(r,t)=str2double(char(sumlines(25)));
+            grp3caoicv(r,t)=str2double(char(sumlines(34)));
+            grp4caoicv(r,t)=str2double(char(sumlines(43)));
+            grp5caoicv(r,t)=str2double(char(sumlines(52)));
+            grp6caoicv(r,t)=str2double(char(sumlines(61)));
+            grp7caoicv(r,t)=str2double(char(sumlines(70)));
+            grp8caoicv(r,t)=str2double(char(sumlines(79)));
+       end
+end
+
+LP={grp1lp,grp2lp,grp3lp,grp4lp,grp5lp,grp6lp,grp7lp,grp8lp};
+LPSD={grp1lpsd,grp2lpsd,grp3lpsd,grp4lpsd,grp5lpsd,grp6lpsd,grp7lpsd,grp8lpsd};
+LPCV={grp1lpcv,grp2lpcv,grp3lpcv,grp4lpcv,grp5lpcv,grp6lpcv,grp7lpcv,grp8lpcv};
+cAOI={grp1caoi,grp2caoi,grp3caoi,grp4caoi,grp5caoi,grp6caoi,grp7caoi,grp8caoi};
+cAOISD={grp1caoisd,grp2caoisd,grp3caoisd,grp4caoisd,grp5caoisd,grp6caoisd,grp7caoisd,grp8caoisd};
+cAOICV={grp1caoicv,grp2caoicv,grp3caoicv,grp4caoicv,grp5caoicv,grp6caoicv,grp7caoicv,grp8caoicv};
+%LOD
+% LODlc=strcat(folder,'\0 ngperml\Results\')
+% fclose(grp1id);
+% fclose(grp2id);
+% fclose(grp3id);
+% fclose(grp4id);
+% fclose(grp5id);
+% fclose(grp6id);
+% fclose(grp7id);
+% fclose(grp8id);
+
+
+end
+
