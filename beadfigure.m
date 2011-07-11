@@ -14,7 +14,7 @@ function [ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zer
 % create new figure window
 f = figure;
 set(f,'doublebuffer', 'on', 'resize', 'off')
-
+exposures
 % set columns of plots
 cols = 2;
 numberofexposures=exposures;

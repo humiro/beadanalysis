@@ -22,7 +22,7 @@ function varargout = singleset(varargin)
 
 % Edit the above text to modify the response to help singleset
 
-% Last Modified by GUIDE v2.5 30-Jun-2011 14:19:02
+% Last Modified by GUIDE v2.5 11-Jul-2011 14:20:01
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -43,7 +43,6 @@ else
 end
 % End initialization code - DO NOT EDIT
 
-
 % --- Executes just before singleset is made visible.
 function singleset_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
@@ -53,7 +52,13 @@ function singleset_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to singleset (see VARARGIN)
 
 % Choose default command line output for singleset
-path(path, 'U:\matlab-analysis\logistic');
+if ispc
+    path(path, 'U:\matlab-analysis\logistic');
+end
+if ismac
+    path(path, '/Users/humberto/beadanalysis/matlab-analysis/logistic');
+end
+
 handles.output = hObject;
 
 % Update handles structure
@@ -61,8 +66,6 @@ guidata(hObject, handles);
 
 % UIWAIT makes singleset wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
-
-
 % --- Outputs from this function are returned to the command line.
 function varargout = singleset_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
@@ -74,6 +77,50 @@ function varargout = singleset_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 
 
+
+% --- Executes on selection change in drtype.
+function drtype_Callback(hObject, eventdata, handles)
+% hObject    handle to drtype (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns drtype contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from drtype
+
+
+% --- Executes during object creation, after setting all properties.
+function drtype_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to drtype (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+% --- Executes on selection change in method.
+function method_Callback(hObject, eventdata, handles)
+% hObject    handle to method (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns method contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from method
+
+
+% --- Executes during object creation, after setting all properties.
+function method_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to method (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
 % --- Executes on button press in browse.
 function browse_Callback(hObject, eventdata, handles)
 % hObject    handle to browse (see GCBO)
@@ -103,29 +150,6 @@ function showfoldname_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-% --- Executes on selection change in popupmenu1.
-function popupmenu1_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu1 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu1
-
-
-% --- Executes during object creation, after setting all properties.
-function popupmenu1_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
@@ -202,20 +226,29 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in show.
-function show_Callback(hObject, eventdata, handles)
-% hObject    handle to show (see GCBO)
+% --- Executes on button press in getdata.
+function getdata_Callback(hObject, eventdata, handles)
+% hObject    handle to getdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global foldname
-groupselected=get(handles.groupdd,'Value');
+global foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures;
+
 [conc,exposures]=makearrays(foldname);
 [LP LPSD LPCV cAOI cAOISD cAOICV]=takearray(conc,foldname,exposures);
-[zerolp zerolpsd zerolpcv zerocaoi zerocaoisd zerocaoicv] = zerounknown(folder,exposures)
-lodinvalues=zerolp+3*zerolpsd
 
-[ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected );
 % figure
 % yval=y';
 % [beta_est mse conc_graph intensity_graph]=dose_response(conc,yval);
 guidata(hObject,handles)
+
+
+% --- Executes on button press in showdata.
+function showdata_Callback(hObject, eventdata, handles)
+% hObject    handle to showdata (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures;
+groupselected=get(handles.groupdd,'Value');
+drtype=get(handles.drtype,'Value');
+[zerolp zerolpsd zerolpcv zerocaoi zerocaoisd zerocaoicv] = zerounknown(foldname,exposures);
+[ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype );

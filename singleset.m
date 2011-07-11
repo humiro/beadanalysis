@@ -22,7 +22,7 @@ function varargout = singleset(varargin)
 
 % Edit the above text to modify the response to help singleset
 
-% Last Modified by GUIDE v2.5 08-Jul-2011 15:36:59
+% Last Modified by GUIDE v2.5 11-Jul-2011 14:20:01
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -226,23 +226,31 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in show.
-function show_Callback(hObject, eventdata, handles)
-% hObject    handle to show (see GCBO)
+% --- Executes on button press in getdata.
+function getdata_Callback(hObject, eventdata, handles)
+% hObject    handle to getdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global foldname
-groupselected=get(handles.groupdd,'Value');
-drtype=get(handles.drtype,'Value');
+global foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures;
+
 [conc,exposures]=makearrays(foldname);
 [LP LPSD LPCV cAOI cAOISD cAOICV]=takearray(conc,foldname,exposures);
-[zerolp zerolpsd zerolpcv zerocaoi zerocaoisd zerocaoicv] = zerounknown(foldname,exposures);
 
-[ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype );
+
+
 % figure
 % yval=y';
 % [beta_est mse conc_graph intensity_graph]=dose_response(conc,yval);
 guidata(hObject,handles)
 
 
-
+% --- Executes on button press in showdata.
+function showdata_Callback(hObject, eventdata, handles)
+% hObject    handle to showdata (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures;
+groupselected=get(handles.groupdd,'Value');
+drtype=get(handles.drtype,'Value');
+[zerolp zerolpsd zerolpcv zerocaoi zerocaoisd zerocaoicv] = zerounknown(foldname,exposures);
+[ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype );
