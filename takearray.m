@@ -1,6 +1,7 @@
 function [LP LPSD LPCV cAOI cAOISD cAOICV]=takearray(xval,folder,exposures)
 %create matrices to store LP values
 conc=xval;
+namefolder=char(folder);
 grp1lp=zeros(numel(conc),numel(exposures));
 grp2lp=zeros(numel(conc),numel(exposures));
 grp3lp=zeros(numel(conc),numel(exposures));
@@ -55,7 +56,7 @@ grp6caoicv=zeros(numel(conc),numel(exposures));
 grp7caoicv=zeros(numel(conc),numel(exposures));
 grp8caoicv=zeros(numel(conc),numel(exposures));
 
-locofsumfiles=dir(folder);
+locofsumfiles=dir(namefolder);
 % storelocations= cell(1,numel(locofsumfiles));
 
 for r=1:numel(conc);
@@ -65,7 +66,7 @@ for r=1:numel(conc);
     if ismac
         testlc= sprintf('//%1.1f ngperml//Results//',conc(r));
     end
-    fpofname=strcat(folder,testlc);
+    fpofname=strcat(namefolder,testlc);
     summaryfiles=dir(fullfile(fpofname,'*summary*.txt'));
     storedfiles=cell(1,numel(summaryfiles));
     for h = 1:numel(summaryfiles) 

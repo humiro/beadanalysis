@@ -1,8 +1,8 @@
 function [conc,exposures]=makearrays(namefolder)
 
 %creates text files to store data by group
-
-locofsumfiles=dir(namefolder);
+foldername=char(namefolder);
+locofsumfiles=dir(foldername);
 storelocations= cell(1,numel(locofsumfiles));
 dlgprompt='Enter concentrations:';
 conc=[];

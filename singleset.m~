@@ -127,9 +127,8 @@ function browse_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global foldname
-foldnameholder=uigetdir('/','Please Select Source Folder');
-set(handles.showfoldname,'String',foldnameholder);
-foldname={foldnameholder};
+foldname=uigetdir('/','Please Select Source Folder');
+set(handles.showfoldname,'String',foldname);
 guidata(hObject,handles);
 
 function showfoldname_Callback(hObject, eventdata, handles)
@@ -239,14 +238,13 @@ if numofunknown>0
     for o=1:numofunknown
         unknownmatholder=uigetdir('/','Please Select Source Folder fot the unknown');
         if o==1
-            unknownmat={unknownmatholder};
+            unknownmat={unknownmatholder}
         else
-            unknownmat={unknownmat,unknownmatholder};
+            unknownmat={unknownmat,unknownmatholder}
         end
     end
 end
-
-[uklp uklpsd uklpcv ukcaoi ukcaoisd ukcaoicv] = zerounknown(unknownmat,exposures,2);
+unknownmat
             
 [conc,exposures]=makearrays(foldname);
 [LP LPSD LPCV cAOI cAOISD cAOICV]=takearray(conc,foldname,exposures);
@@ -264,6 +262,6 @@ groupselected=get(handles.groupdd,'Value');
 drtype=get(handles.drtype,'Value');
 erbarvalue=get(handles.errorbars,'Value');
 methodvalue=get(handles.method,'Value');
-[zerolp zerolpsd zerolpcv zerocaoi zerocaoisd zerocaoicv] = zerounknown(foldname,exposures,1);
+[zerolp zerolpsd zerolpcv zerocaoi zerocaoisd zerocaoicv] = zerounknown(foldname,exposures);
 [ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype,erbarvalue,methodvalue );
 guidata(hObject,handles)
