@@ -236,11 +236,6 @@ global foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures;
 [conc,exposures]=makearrays(foldname);
 [LP LPSD LPCV cAOI cAOISD cAOICV]=takearray(conc,foldname,exposures);
 
-
-
-% figure
-% yval=y';
-% [beta_est mse conc_graph intensity_graph]=dose_response(conc,yval);
 guidata(hObject,handles)
 
 
@@ -254,3 +249,4 @@ groupselected=get(handles.groupdd,'Value');
 drtype=get(handles.drtype,'Value');
 [zerolp zerolpsd zerolpcv zerocaoi zerocaoisd zerocaoicv] = zerounknown(foldname,exposures);
 [ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype );
+guidata(hObject,handles)
