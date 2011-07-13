@@ -1,4 +1,4 @@
-function [ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype,erbarvalue, methodvalue, uklp,ukcaoi)
+function [ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype,erbarvalue, methodvalue, uklp,ukcaoi, startnm, lastnm)
 % Created by Evan Brooks, evan.brooks@wpafb.af.mil
 %
 % Adaptation of scrollplotdemo by Steven Lord:
@@ -94,7 +94,7 @@ buf = .15/cols; % buffer between axes & between left edge of figure and axes
 awidth = (1-buf*cols-.08/cols)/cols; % width of all axes
 aidx = 1;
 rowidx = 0;
-while aidx <= length(y)
+while aidx <= (length(y)/2)
     for i = 0:cols-1
         if aidx+i <= length(y)
             start = buf + buf*i + awidth*i;
@@ -107,13 +107,15 @@ while aidx <= length(y)
 end
 
 % make plots
-for s=1:skipsize
+n=1;
+for s=startnm:lastnm
     num=num2str(numberofexposures(s));
     sptit=strcat('Exposures ',num,'sec');
     yval=y(:,s);
     ysdval=rawSD(:,s);
     newy=yval';
-    axes(a{s});
+    axes(a{n});
+    n=n+1;
     [beta_est mse conc_graph intensity_graph]=dose_response(x,newy);
     xlabel('Concentration'), ylabel('Intensity');
     hold on;
@@ -147,7 +149,10 @@ for s=1:skipsize
     end
     title({sptit,eqstrg}),
     hold off;
+
 end
+
+
 suptitle(figtitle);
 % axes(a{2}), plot(x,y{2}), title('cosine'), xlabel('x'), ylabel('cos(x)')
 % axes(a{3}), plot(x,y{3}), title('tangent'), xlabel('x'), ylabel('tan(x)')
