@@ -232,8 +232,12 @@ function getdata_Callback(hObject, eventdata, handles)
 % hObject    handle to getdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures;
+global foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures uklp uklpsd uklpcv ukcaoi ukcaoisd ukcaoicv;
 numofunknown=str2num(get(handles.numberofunknown,'String'));
+            
+[conc,exposures]=makearrays(foldname);
+[LP LPSD LPCV cAOI cAOISD cAOICV]=takearray(conc,foldname,exposures);
+
 if numofunknown>0
     unknownmat={};
     for o=1:numofunknown
@@ -244,13 +248,15 @@ if numofunknown>0
             unknownmat={unknownmat,unknownmatholder};
         end
     end
+    [uklp uklpsd uklpcv ukcaoi ukcaoisd ukcaoicv] = zerounknown(unknownmat,exposures,2);
+else
+    uklp=[];
+    uklpsd=[];
+    uklpcv=[];
+    ukcaoi=[];
+    ukcaoisd=[];
+    ukcaoicv=[];
 end
-
-[uklp uklpsd uklpcv ukcaoi ukcaoisd ukcaoicv] = zerounknown(unknownmat,exposures,2);
-            
-[conc,exposures]=makearrays(foldname);
-[LP LPSD LPCV cAOI cAOISD cAOICV]=takearray(conc,foldname,exposures);
-
 guidata(hObject,handles)
 
 
@@ -259,11 +265,15 @@ function showdata_Callback(hObject, eventdata, handles)
 % hObject    handle to showdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures;
+global foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures uklp uklpsd uklpcv ukcaoi ukcaoisd ukcaoicv;
 groupselected=get(handles.groupdd,'Value');
 drtype=get(handles.drtype,'Value');
 erbarvalue=get(handles.errorbars,'Value');
 methodvalue=get(handles.method,'Value');
 [zerolp zerolpsd zerolpcv zerocaoi zerocaoisd zerocaoicv] = zerounknown(foldname,exposures,1);
-[ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype,erbarvalue,methodvalue );
-guidata(hObject,handles)
+if drtype==7
+    CV_Graph(LPCV,conc, exposures, groupselected);
+else
+    [ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype,erbarvalue,methodvalue,uklp,ukcaoi);
+end
+ guidata(hObject,handles)

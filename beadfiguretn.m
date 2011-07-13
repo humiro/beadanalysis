@@ -15,7 +15,7 @@ function [ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zer
 f = figure;
 set(f,'doublebuffer', 'on', 'resize', 'off')
 % set columns of plots
-cols = 2;
+cols = numel(exposures)/2;
 numberofexposures=exposures;
 % create 5 data sets to plot
 x=conc;
@@ -177,9 +177,6 @@ uicontrol('style','slider', ...
     'units','normalized','position',ypos, ...
     'callback',clbk,'min',ymin,'max',ymax,'value',0);
 sd=0;
-
-
-
 
 
 

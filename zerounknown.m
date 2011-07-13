@@ -38,8 +38,8 @@ if ismac
         testlc='/Results/';
     end
 end
-fpofname=char(strcat(folder{w},testlc))
-summaryfiles=dir(fullfile(fpofname,'*summary*.txt'))
+fpofname=char(strcat(folder{w},testlc));
+summaryfiles=dir(fullfile(fpofname,'*summary*.txt'));
 storedfiles=cell(1,numel(summaryfiles));
 for h = 1:numel(summaryfiles) 
     storedfiles{h} = summaryfiles(h).name;

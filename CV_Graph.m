@@ -1,23 +1,25 @@
-function  CV_Graph
+% Use skipsize (number of skipped lines for each exposure) 
+% and each group of 14 corresponds to one concentration
+function  CV_Graph(inputCV, conc, exposures, gs);
+%skipsize = 14;
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-CVDATA = importdata('C:\work\beadanalysis\group5.txt');
-CV_LP=[3];
-CV_cAOI=[6];
 
-cvvar=[CV_LP CV_cAOI];
-cv_size=size(CVDATA.data);
-cv1=cv_size(1);
-cvmat=zeros(cv1,length(cvvar));
 
-%populate
-for i = 1:length(cvvar)
-cvmat(:,i) = CVDATA.data(:,cvvar(i));
-end
-exposure=4;
-y=cvmat([exposure:9:cv1],1);
-x=conc;
+%x=conc;
+%figure;
+%bar(x,y,'histc');
+
+% a = length(exposure1) * length(concentration);
+% b = length(CVDATA.data(:,3));
+ycv=inputCV{gs-1};
 figure;
-bar(x,y,'histc');
+bar3(ycv)
+set(gca,'YTickLabel',conc)
+set(gca,'XTickLabel',exposures)
+xlabel('Exposure(s)','fontsize',16)
+ylabel('Concentration','fontsize',16)
+zlabel('CV','fontsize',16)
+title('3D Bar Plot Relating Exposure,Concentration,and CV','fontsize',16)
 end
 
