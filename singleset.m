@@ -22,7 +22,7 @@ function varargout = singleset(varargin)
 
 % Edit the above text to modify the response to help singleset
 
-% Last Modified by GUIDE v2.5 11-Jul-2011 14:20:01
+% Last Modified by GUIDE v2.5 14-Jul-2011 14:53:34
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -100,6 +100,30 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
+% --- Executes on selection change in methodsused.
+function methodsused_Callback(hObject, eventdata, handles)
+% hObject    handle to methodsused (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns methodsused contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from methodsused
+
+
+% --- Executes during object creation, after setting all properties.
+function methodsused_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to methodsused (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
 % --- Executes on selection change in method.
 function method_Callback(hObject, eventdata, handles)
 % hObject    handle to method (see GCBO)
@@ -109,7 +133,10 @@ function method_Callback(hObject, eventdata, handles)
 % Hints: contents = cellstr(get(hObject,'String')) returns method contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from method
 
-
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+guidata(hObject,handles);
 % --- Executes during object creation, after setting all properties.
 function method_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to method (see GCBO)
@@ -118,9 +145,7 @@ function method_CreateFcn(hObject, eventdata, handles)
 
 % Hint: popupmenu controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+
 % --- Executes on button press in browse.
 function browse_Callback(hObject, eventdata, handles)
 % hObject    handle to browse (see GCBO)
@@ -232,12 +257,24 @@ function getdata_Callback(hObject, eventdata, handles)
 % hObject    handle to getdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures uklp uklpsd uklpcv ukcaoi ukcaoisd ukcaoicv;
+global showmethods foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures uklp uklpsd uklpcv ukcaoi ukcaoisd ukcaoicv;
 numofunknown=str2num(get(handles.numberofunknown,'String'));
-            
 [conc,exposures]=makearrays(foldname);
+methodsselected=get(handles.methodsused,'Value');
+methods=['Linear Profile  ';'cAOI            ';'Donut           ';'Circular Profile';'Fixed           ';'Integrated cAOI ';'Integrated Donut';'Integrated CP   ';'Integrated Fixed'];
+methodsstr=cellstr(methods);
+showmethods=methodsstr(methodsselected)        
+set(handles.method,'String',char(showmethods));
 [LP LPSD LPCV cAOI cAOISD cAOICV]=takearray(conc,foldname,exposures);
-
+if numel(get(handles.showfoldname,'String'))>1
+    set(handles.method,'Enable','On')
+    set(handles.errorbars,'Enable','On')
+    set(handles.groupdd,'Enable','On')
+    set(handles.drtype,'Enable','On')
+    set(handles.showdata,'Enable','On') 
+else
+    errordlg('Please select a directory file');
+end
 if numofunknown>0
     unknownmat={};
     for o=1:numofunknown
@@ -266,6 +303,7 @@ function showdata_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures uklp uklpsd uklpcv ukcaoi ukcaoisd ukcaoicv;
+
 groupselected=get(handles.groupdd,'Value');
 drtype=get(handles.drtype,'Value');
 erbarvalue=get(handles.errorbars,'Value');
@@ -277,3 +315,7 @@ else
     [ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype,erbarvalue,methodvalue,uklp,ukcaoi);
 end
  guidata(hObject,handles)
+
+
+
+

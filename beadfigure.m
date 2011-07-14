@@ -23,12 +23,17 @@ whichgroup=(groupselected-1);
 if methodvalue==2
     raw= LP{whichgroup};
     rawSD=LPSD{whichgroup};
+    zeromat=zerolp;
+    zerosdmat=zerolpsd;
 end
 if methodvalue==3
     raw= cAOI{whichgroup};
     rawSD=cAOISD{whichgroup};
+    zeromat=zerocaoi;
+    zerosdmat=zerocaoisd;
 end
 skipsize=length(raw);
+%manipulation of raw data
 neg=LP{2};
 cal=LP{1};
 maxcal=max(cal);
@@ -36,7 +41,7 @@ rawminneg=raw-neg;
 rawminnegnorm=raw;
 rawnorm=raw;
 rawzerolp=zerolp(whichgroup,:);
-
+%manipulation of zero data
 negzerolp=zerolp(2,:);
 calzerolp=zerolp(1,:);
 rawzerominneg=rawzerolp-negzerolp;
@@ -48,10 +53,7 @@ rawzerolpnorm=(rawzerolp.*calzerolp)/maxzerocal;
 for i=1:skipsize
     rawminnegnorm(:,i)=(rawminneg(:,i).*cal(:,i))/maxcal(i);
     rawnorm(:,i)=(raw(:,i).*cal(:,i))/maxcal(i);
-
 end
-
-
 
 lodzerolpvalues=zerolp+3*zerolpsd;
 lodzerocaoivalues=zerocaoi+3*zerocaoisd;
