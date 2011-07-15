@@ -22,7 +22,7 @@ function varargout = singleset(varargin)
 
 % Edit the above text to modify the response to help singleset
 
-% Last Modified by GUIDE v2.5 14-Jul-2011 14:53:34
+% Last Modified by GUIDE v2.5 15-Jul-2011 15:30:04
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -257,24 +257,45 @@ function getdata_Callback(hObject, eventdata, handles)
 % hObject    handle to getdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global showmethods foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures uklp uklpsd uklpcv ukcaoi ukcaoisd ukcaoicv;
-numofunknown=str2num(get(handles.numberofunknown,'String'));
+global showmethods foldname conc exposures ;
+
 [conc,exposures]=makearrays(foldname);
 methodsselected=get(handles.methodsused,'Value');
 methods=['Linear Profile  ';'cAOI            ';'Donut           ';'Circular Profile';'Fixed           ';'Integrated cAOI ';'Integrated Donut';'Integrated CP   ';'Integrated Fixed'];
 methodsstr=cellstr(methods);
-showmethods=methodsstr(methodsselected)        
+showmethods=methodsstr(methodsselected);      
 set(handles.method,'String',char(showmethods));
-[LP LPSD LPCV cAOI cAOISD cAOICV]=takearray(conc,foldname,exposures);
+% [LP LPSD LPCV cAOI cAOISD cAOICV]=takearray(conc,foldname,exposures);
 if numel(get(handles.showfoldname,'String'))>1
     set(handles.method,'Enable','On')
     set(handles.errorbars,'Enable','On')
     set(handles.groupdd,'Enable','On')
     set(handles.drtype,'Enable','On')
     set(handles.showdata,'Enable','On') 
+    set(handles.reportbtn,'Enable','On')
 else
     errordlg('Please select a directory file');
 end
+
+guidata(hObject,handles)
+
+
+% --- Executes on button press in showdata.
+function showdata_Callback(hObject, eventdata, handles)
+% hObject    handle to showdata (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global showmethods foldname conc exposures;
+
+groupselected=get(handles.groupdd,'Value');
+drtype=get(handles.drtype,'Value');
+erbarvalue=get(handles.errorbars,'Value');
+methodvalue=get(handles.method,'Value');
+numofmethods=numel(showmethods);
+[intensityvalues sdvalues cvvalues]=takearray7142011(conc,foldname,exposures,numofmethods,methodvalue);
+[zerolp zerolpsd zerolpcv] = zerounknown(foldname,exposures,1,numofmethods,methodvalue);
+
+numofunknown=str2num(get(handles.numberofunknown,'String'));
 if numofunknown>0
     unknownmat={};
     for o=1:numofunknown
@@ -285,37 +306,30 @@ if numofunknown>0
             unknownmat={unknownmat,unknownmatholder};
         end
     end
-    [uklp uklpsd uklpcv ukcaoi ukcaoisd ukcaoicv] = zerounknown(unknownmat,exposures,2);
+    [uklp uklpsd uklpcv] = zerounknown(unknownmat,exposures,2,numofmethods,methodvalue);
 else
     uklp=[];
     uklpsd=[];
     uklpcv=[];
-    ukcaoi=[];
-    ukcaoisd=[];
-    ukcaoicv=[];
 end
-guidata(hObject,handles)
 
 
-% --- Executes on button press in showdata.
-function showdata_Callback(hObject, eventdata, handles)
-% hObject    handle to showdata (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-global foldname LP LPSD LPCV cAOI cAOISD cAOICV conc exposures uklp uklpsd uklpcv ukcaoi ukcaoisd ukcaoicv;
-
-groupselected=get(handles.groupdd,'Value');
-drtype=get(handles.drtype,'Value');
-erbarvalue=get(handles.errorbars,'Value');
-methodvalue=get(handles.method,'Value');
-[zerolp zerolpsd zerolpcv zerocaoi zerocaoisd zerocaoicv] = zerounknown(foldname,exposures,1);
 if drtype==7
     CV_Graph(LPCV,conc, exposures, groupselected);
 else
-    [ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype,erbarvalue,methodvalue,uklp,ukcaoi);
+    [ y sd ] = beadfigure(intensityvalues,sdvalues,zerolp,zerolpsd,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd);
 end
  guidata(hObject,handles)
 
 
+% --- Executes on button press in reportbtn.
+function reportbtn_Callback(hObject, eventdata, handles)
+% hObject    handle to reportbtn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global showmethods foldname conc exposures;
+
+report('summarystat')
+guidata(hObject,handles)
 
 

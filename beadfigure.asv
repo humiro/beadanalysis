@@ -1,4 +1,4 @@
-function [ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype,erbarvalue, methodvalue, uklp,ukcaoi)
+function [ y sd ] = beadfigure(methodI,methodSD,zeroI,zeroSD,conc,exposures,groupselected,drtype,erbarvalue, methodvalue, uklp)
 % Created by Evan Brooks, evan.brooks@wpafb.af.mil
 %
 % Adaptation of scrollplotdemo by Steven Lord:
@@ -20,15 +20,11 @@ numberofexposures=exposures;
 % create 5 data sets to plot
 x=conc;
 whichgroup=(groupselected-1);
-if methodvalue==2
-    raw= LP{whichgroup};
-    rawSD=LPSD{whichgroup};
-end
-if methodvalue==3
-    raw= cAOI{whichgroup};
-    rawSD=cAOISD{whichgroup};
-end
-skipsize=length(raw);
+raw= methodI{whichgroup};
+rawSD=methodSD{whichgroup};
+zeromat=zerolp;
+zerosdmat=zerolpsd;
+kipsize=length(raw);
 %manipulation of raw data
 neg=LP{2};
 cal=LP{1};

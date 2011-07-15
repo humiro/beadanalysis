@@ -1,4 +1,4 @@
-function [ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype,erbarvalue, methodvalue, uklp,ukcaoi)
+function [ y sd ] = beadfigure(methodI,methodSD,zeroI,zeroSD,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd)
 % Created by Evan Brooks, evan.brooks@wpafb.af.mil
 %
 % Adaptation of scrollplotdemo by Steven Lord:
@@ -20,33 +20,21 @@ numberofexposures=exposures;
 % create 5 data sets to plot
 x=conc;
 whichgroup=(groupselected-1);
-if methodvalue==2
-    raw= LP{whichgroup};
-    rawSD=LPSD{whichgroup};
-    zeromat=zerolp;
-    zerosdmat=zerolpsd;
-end
-if methodvalue==3
-    raw= cAOI{whichgroup};
-    rawSD=cAOISD{whichgroup};
-    zeromat=zerocaoi;
-    zerosdmat=zerocaoisd;
-end
+raw= methodI{whichgroup};
+rawSD=methodSD{whichgroup};
 skipsize=length(raw);
 %manipulation of raw data
-neg=LP{2};
-cal=LP{1};
+neg=methodI{2};
+cal=methodI{1};
 maxcal=max(cal);
 rawminneg=raw-neg;
 rawminnegnorm=raw;
 rawnorm=raw;
-rawzerolp=zerolp(whichgroup,:);
+rawzerolp=zeroI(whichgroup,:);
 %manipulation of zero data
-negzerolp=zerolp(2,:);
-calzerolp=zerolp(1,:);
+negzerolp=zeroI(2,:);
+calzerolp=zeroI(1,:);
 rawzerominneg=rawzerolp-negzerolp;
-rawzerominnegnorm=rawzerolp;
-rawzerolpnorm=rawzerolp;
 maxzerocal=max(calzerolp);
 rawzerominnegnorm=(rawzerominneg.*calzerolp)/maxzerocal;
 rawzerolpnorm=(rawzerolp.*calzerolp)/maxzerocal;
@@ -55,12 +43,11 @@ for i=1:skipsize
     rawnorm(:,i)=(raw(:,i).*cal(:,i))/maxcal(i);
 end
 
-lodzerolpvalues=zerolp+3*zerolpsd;
-lodzerocaoivalues=zerocaoi+3*zerocaoisd;
+lodzerolpvalues=zeroI+3*zeroSD;
 inputsamplevalue=lodzerolpvalues(whichgroup,:);
 if drtype==2
     y=raw;
-    lodzerolpvalues=zerolp+3*zerolpsd;
+    lodzerolpvalues=zeroI+3*zeroSD;
     figtitle='Raw Data Dose Response';
 end
 if drtype==3
@@ -100,11 +87,11 @@ while aidx <= length(y)
     for i = 0:cols-1
         if aidx+i <= length(y)
             start = buf + buf*i + awidth*i;
-            apos{aidx+i} = [start 1-rowidx-.92 awidth .85];
+            apos{aidx+i} = [start 1-rowidx-.97 awidth .85];
             a{aidx+i} = axes('position', apos{aidx+i});
         end
     end
-    rowidx = rowidx + 1; % increment row
+    rowidx = rowidx + 1.03; % increment row
     aidx = aidx + cols;  % increment index of axes
 end
 
@@ -141,7 +128,7 @@ for s=1:skipsize
             end
         end
         strg=strcat('LOD =', pvstring);
-        text(prediction_value,inputsamplevalue(s)+10,strg,'FontSize',16)
+        text(prediction_value,inputsamplevalue(s)+1,strg,'FontSize',12)
     else 
         prediction_value=0;
         eqstrg='NONE';

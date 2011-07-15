@@ -32,8 +32,7 @@ grp8lpcv=zeros(numel(conc),numel(exposures));
 locofsumfiles=dir(namefolder);
 % storelocations= cell(1,numel(locofsumfiles));
 skipnumber=numofmethods*3+3;
-  
-startnumber=skipnumber+whichmethod;
+startnumber=skipnumber+whichmethod+1;
 
 
 for r=1:numel(conc);
@@ -49,7 +48,6 @@ for r=1:numel(conc);
     for h = 1:numel(summaryfiles) 
         storedfiles{h} = summaryfiles(h).name;
     end
-    
         for t=1:numel(summaryfiles)
             storedfilename=char(strcat(fpofname,storedfiles(t)));
             sumlines=textread(storedfilename,'%s','delimiter',' ');
@@ -84,12 +82,10 @@ for r=1:numel(conc);
        end
 end
 
-LP={grp1lp,grp2lp,grp3lp,grp4lp,grp5lp,grp6lp,grp7lp,grp8lp};
-LPSD={grp1lpsd,grp2lpsd,grp3lpsd,grp4lpsd,grp5lpsd,grp6lpsd,grp7lpsd,grp8lpsd};
-LPCV={grp1lpcv,grp2lpcv,grp3lpcv,grp4lpcv,grp5lpcv,grp6lpcv,grp7lpcv,grp8lpcv};
-cAOI={grp1caoi,grp2caoi,grp3caoi,grp4caoi,grp5caoi,grp6caoi,grp7caoi,grp8caoi};
-cAOISD={grp1caoisd,grp2caoisd,grp3caoisd,grp4caoisd,grp5caoisd,grp6caoisd,grp7caoisd,grp8caoisd};
-cAOICV={grp1caoicv,grp2caoicv,grp3caoicv,grp4caoicv,grp5caoicv,grp6caoicv,grp7caoicv,grp8caoicv};
+intensityvalues={grp1lp,grp2lp,grp3lp,grp4lp,grp5lp,grp6lp,grp7lp,grp8lp};
+sdvalues={grp1lpsd,grp2lpsd,grp3lpsd,grp4lpsd,grp5lpsd,grp6lpsd,grp7lpsd,grp8lpsd};
+cvvalues={grp1lpcv,grp2lpcv,grp3lpcv,grp4lpcv,grp5lpcv,grp6lpcv,grp7lpcv,grp8lpcv};
+
 
 end
 
