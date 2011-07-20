@@ -22,7 +22,7 @@ function varargout = singleset(varargin)
 
 % Edit the above text to modify the response to help singleset
 
-% Last Modified by GUIDE v2.5 15-Jul-2011 15:30:04
+% Last Modified by GUIDE v2.5 19-Jul-2011 14:10:33
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -273,6 +273,7 @@ if numel(get(handles.showfoldname,'String'))>1
     set(handles.drtype,'Enable','On')
     set(handles.showdata,'Enable','On') 
     set(handles.reportbtn,'Enable','On')
+    set(handles.oneexp,'Enable','On')
 else
     errordlg('Please select a directory file');
 end
@@ -285,7 +286,7 @@ function showdata_Callback(hObject, eventdata, handles)
 % hObject    handle to showdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global showmethods foldname conc exposures;
+global showmethods foldname conc exposures methodvalue numofmethods intensityvalues groupselected;
 
 groupselected=get(handles.groupdd,'Value');
 drtype=get(handles.drtype,'Value');
@@ -327,9 +328,34 @@ function reportbtn_Callback(hObject, eventdata, handles)
 % hObject    handle to reportbtn (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global showmethods foldname conc exposures;
+global showmethods foldname conc exposures methodvalue numofmethods;
 
 report('summarystat')
 guidata(hObject,handles)
 
 
+
+
+% --- Executes on button press in oneexp.
+function oneexp_Callback(hObject, eventdata, handles)
+% hObject    handle to oneexp (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global conc exposures intensityvalues groupselected sexpval;
+dlgprompt='Select exposure:';
+singleexp=inputdlg(dlgprompt);
+chsingleexp=char(singleexp);
+if str2num(chsingleexp) ~= exposures(:)
+ errordlg('Please select approprieate exposure') 
+end
+for t=1:numel(exposures)
+    if exposures(t)==str2num(chsingleexp)
+        sexpval=t;
+    end
+end
+yholder=intensityvalues{groupselected-1};
+yinv=yholder(:,sexpval)
+y=yinv';
+figure
+dose_response(conc,y);
+guidata(hObject,handles)

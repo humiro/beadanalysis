@@ -1,4 +1,4 @@
-function [ y sd ] = beadfigure(LP,cAOI,LPSD,cAOISD,zerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype,erbarvalue, methodvalue, uklp,ukcaoi, startnm, lastnm)
+function [ y sd ] = beadfiguretn(methodI,methodSD,zeroI,zeroSD,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd, startnm, lastnm)
 % Created by Evan Brooks, evan.brooks@wpafb.af.mil
 %
 % Adaptation of scrollplotdemo by Steven Lord:
@@ -20,45 +20,34 @@ numberofexposures=exposures;
 % create 5 data sets to plot
 x=conc;
 whichgroup=(groupselected-1);
-if methodvalue==2
-    raw= LP{whichgroup};
-    rawSD=LPSD{whichgroup};
-end
-if methodvalue==3
-    raw= cAOI{whichgroup};
-    rawSD=cAOISD{whichgroup};
-end
+raw= methodI{whichgroup};
+rawSD=methodSD{whichgroup};
 skipsize=length(raw);
-neg=LP{2};
-cal=LP{1};
+%manipulation of raw data
+neg=methodI{2};
+cal=methodI{1};
 maxcal=max(cal);
 rawminneg=raw-neg;
 rawminnegnorm=raw;
 rawnorm=raw;
-rawzerolp=zerolp(whichgroup,:);
-
-negzerolp=zerolp(2,:);
-calzerolp=zerolp(1,:);
+rawzerolp=zeroI(whichgroup,:);
+%manipulation of zero data
+negzerolp=zeroI(2,:);
+calzerolp=zeroI(1,:);
 rawzerominneg=rawzerolp-negzerolp;
-rawzerominnegnorm=rawzerolp;
-rawzerolpnorm=rawzerolp;
 maxzerocal=max(calzerolp);
 rawzerominnegnorm=(rawzerominneg.*calzerolp)/maxzerocal;
 rawzerolpnorm=(rawzerolp.*calzerolp)/maxzerocal;
 for i=1:skipsize
     rawminnegnorm(:,i)=(rawminneg(:,i).*cal(:,i))/maxcal(i);
     rawnorm(:,i)=(raw(:,i).*cal(:,i))/maxcal(i);
-
 end
 
-
-
-lodzerolpvalues=zerolp+3*zerolpsd;
-lodzerocaoivalues=zerocaoi+3*zerocaoisd;
+lodzerolpvalues=zeroI+3*zeroSD;
 inputsamplevalue=lodzerolpvalues(whichgroup,:);
 if drtype==2
     y=raw;
-    lodzerolpvalues=zerolp+3*zerolpsd;
+    lodzerolpvalues=zeroI+3*zeroSD;
     figtitle='Raw Data Dose Response';
 end
 if drtype==3
@@ -77,7 +66,7 @@ if drtype==6
     y=cvgraph;
     figtitle='CV Graph';
 end
-    
+
 %determine raw - negative 
 % determine required rows of plots
 rows = ceil(length(y)/cols);
@@ -98,11 +87,11 @@ while aidx <= (length(y)/2)
     for i = 0:cols-1
         if aidx+i <= length(y)
             start = buf + buf*i + awidth*i;
-            apos{aidx+i} = [start 1-rowidx-.92 awidth .85];
+            apos{aidx+i} = [start 1-rowidx-.96 awidth .85];
             a{aidx+i} = axes('position', apos{aidx+i});
         end
     end
-    rowidx = rowidx + 1; % increment row
+    rowidx = rowidx + 1.01; % increment row
     aidx = aidx + cols;  % increment index of axes
 end
 
@@ -122,6 +111,7 @@ for s=startnm:lastnm
     if numel(beta_est)>1
         [prediction_value] = prediction(beta_est,conc_graph,inputsamplevalue(s));
         pvstring=num2str(prediction_value);
+        plot(prediction_value,inputsamplevalue(s),'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','g');
         % concentration = a+b*(exp(c-d*log(conc)))./(1+exp(c - d*log(conc)));
         p=num2str(beta_est(1));
         b=num2str(beta_est(2));
@@ -131,7 +121,6 @@ for s=startnm:lastnm
         if erbarvalue==2
             errorbar(conc,yval,ysdval,'rs');
         end
-        plot(prediction_value,inputsamplevalue(s),'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','g');
         if numel(uklp)>0
             for q=1:numel(uklp)
                 unknownlp=uklp{q};

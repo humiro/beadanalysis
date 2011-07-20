@@ -66,7 +66,6 @@ if drtype==6
     y=cvgraph;
     figtitle='CV Graph';
 end
-    
 %determine raw - negative 
 % determine required rows of plots
 rows = ceil(length(y)/cols);
@@ -87,11 +86,11 @@ while aidx <= length(y)
     for i = 0:cols-1
         if aidx+i <= length(y)
             start = buf + buf*i + awidth*i;
-            apos{aidx+i} = [start 1-rowidx-.97 awidth .85];
+            apos{aidx+i} = [start 1-rowidx-.92 awidth .85];
             a{aidx+i} = axes('position', apos{aidx+i});
         end
     end
-    rowidx = rowidx + 1.03; % increment row
+    rowidx = rowidx + 1; % increment row
     aidx = aidx + cols;  % increment index of axes
 end
 
@@ -108,7 +107,15 @@ for s=1:skipsize
     hold on;
     if numel(beta_est)>1
         [prediction_value] = prediction(beta_est,conc_graph,inputsamplevalue(s));
-        pvstring=num2str(prediction_value);
+%         if prediction_value=='Unknown'
+%             pvstring='Unknown';
+%             prediction_value=100;
+%         else
+            pvstring=num2str(prediction_value);
+            plot(prediction_value,inputsamplevalue(s),'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','g');
+%         end
+            strg=strcat('LOD =', pvstring);
+            text(prediction_value,inputsamplevalue(s)+1,strg,'FontSize',12)
         % concentration = a+b*(exp(c-d*log(conc)))./(1+exp(c - d*log(conc)));
         p=num2str(beta_est(1));
         b=num2str(beta_est(2));
@@ -118,7 +125,6 @@ for s=1:skipsize
         if erbarvalue==2
             errorbar(conc,yval,ysdval,'rs');
         end
-        plot(prediction_value,inputsamplevalue(s),'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','g');
         if numel(uklp)>0
             for q=1:numel(uklp)
                 unknownlp=uklp{q};
@@ -127,8 +133,6 @@ for s=1:skipsize
                 plot(ukprediction_value,unknowngroup(s),'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','b');
             end
         end
-        strg=strcat('LOD =', pvstring);
-        text(prediction_value,inputsamplevalue(s)+1,strg,'FontSize',12)
     else 
         prediction_value=0;
         eqstrg='NONE';

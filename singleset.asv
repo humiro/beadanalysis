@@ -22,7 +22,7 @@ function varargout = singleset(varargin)
 
 % Edit the above text to modify the response to help singleset
 
-% Last Modified by GUIDE v2.5 14-Jul-2011 14:53:34
+% Last Modified by GUIDE v2.5 19-Jul-2011 14:10:33
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -272,6 +272,8 @@ if numel(get(handles.showfoldname,'String'))>1
     set(handles.groupdd,'Enable','On')
     set(handles.drtype,'Enable','On')
     set(handles.showdata,'Enable','On') 
+    set(handles.reportbtn,'Enable','On')
+    set(handles.oneexp,'Enable','On')
 else
     errordlg('Please select a directory file');
 end
@@ -284,14 +286,15 @@ function showdata_Callback(hObject, eventdata, handles)
 % hObject    handle to showdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global foldname conc exposures;
+global showmethods foldname conc exposures methodvalue numofmethods;
 
 groupselected=get(handles.groupdd,'Value');
 drtype=get(handles.drtype,'Value');
 erbarvalue=get(handles.errorbars,'Value');
 methodvalue=get(handles.method,'Value');
-[intensityvalues sdvalues cvvalues]=takearray7142011(conc,foldname,exposures,numofmethods,whichmethod);
-[zerolp zerolpsd zerolpcv zerocaoi zerocaoisd zerocaoicv] = zerounknown(foldname,exposures,1);
+numofmethods=numel(showmethods);
+[intensityvalues sdvalues cvvalues]=takearray7142011(conc,foldname,exposures,numofmethods,methodvalue);
+[zerolp zerolpsd zerolpcv] = zerounknown(foldname,exposures,1,numofmethods,methodvalue);
 
 numofunknown=str2num(get(handles.numberofunknown,'String'));
 if numofunknown>0
@@ -304,24 +307,48 @@ if numofunknown>0
             unknownmat={unknownmat,unknownmatholder};
         end
     end
-    [uklp uklpsd uklpcv ukcaoi ukcaoisd ukcaoicv] = zerounknown(unknownmat,exposures,2);
+    [uklp uklpsd uklpcv] = zerounknown(unknownmat,exposures,2,numofmethods,methodvalue);
 else
     uklp=[];
     uklpsd=[];
     uklpcv=[];
-    ukcaoi=[];
-    ukcaoisd=[];
-    ukcaoicv=[];
 end
 
 
 if drtype==7
     CV_Graph(LPCV,conc, exposures, groupselected);
 else
-    [ y sd ] = beadfigure(intensityvalues,sdvalues,cvvalueszerolp,zerolpsd, zerocaoi,zerocaoisd,conc,exposures,groupselected,drtype,erbarvalue,methodvalue,uklp,ukcaoi);
+    [ y sd ] = beadfigure(intensityvalues,sdvalues,zerolp,zerolpsd,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd);
 end
  guidata(hObject,handles)
 
 
+% --- Executes on button press in reportbtn.
+function reportbtn_Callback(hObject, eventdata, handles)
+% hObject    handle to reportbtn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global showmethods foldname conc exposures methodvalue numofmethods;
+
+report('summarystat')
+guidata(hObject,handles)
 
 
+
+
+% --- Executes on button press in oneexp.
+function oneexp_Callback(hObject, eventdata, handles)
+% hObject    handle to oneexp (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global exposures
+dlgprompt='Select exposure:';
+singleexp=inputdlg(dlgprompt);
+chsingleexp=char(singleexp);
+if str2num(chsingleexp) ~= exposures(:)
+ errordlg('Please select approprieate exposure') 
+end
+for t=1:numel(exposures)
+    if exposures(
+
+guidata(hObject,handles)
