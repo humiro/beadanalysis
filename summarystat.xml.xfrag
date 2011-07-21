@@ -1,0 +1,18 @@
+<book lang="en">
+<?dbhtml filename="summarystat.html"?>
+<!--Created by: Report Generator v3.8, The MathWorks Inc.-->
+<!--This report summarizes the statistics of dose response from selected directory. -->
+<bookinfo>
+    <title>Dose Curve Statistics </title>
+    <subtitle>C:\work\beadanalysis\Data\3-15-11\DoseCurve</subtitle>
+    <pubdate>21-Jul-2011 12:50:25</pubdate>
+    <abstract>
+        <para>This report shows data for the dose curve found in C:\work\beadanalysis\Data\3-15-11\DoseCurve.</para>
+    </abstract>
+</bookinfo>
+&sect-002;
+&sect-003;
+&sect-004;
+&sect-005;
+&sect-006;
+</book>

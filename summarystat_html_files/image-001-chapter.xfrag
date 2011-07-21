@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<chapter>
+<?dbhtml filename="summarystat-002.html"?>
+<title>Chip Setup and Reagents</title>
+<emphasis role="bold">Chip Layout</emphasis>
+<table border="1" cellspacing="0" fastRender="1">
+    <caption>Chip Layout</caption>
+    <col colname="0" colnum="0" width="1*"/>
+    <col colname="1" colnum="1" width="1*"/>
+    <col colname="2" colnum="2" width="1*"/>
+    <col colname="3" colnum="3" width="1*"/>
+    <col colname="4" colnum="4" width="1*"/>
+    <tbody>
+        <tr>
+            <td align="left">.02 ng/ml anti</td>
+            <td align="left">Free PSA M167</td>
+            <td align="left">Free PSA M167</td>
+            <td align="left">Free PSA M167</td>
+            <td align="left">Free PSA M167</td>
+        </tr>
+        <tr>
+            <td align="left">.02 ng/ml anti</td>
+            <td align="left">Complex PSA</td>
+            <td align="left">Complex PSA</td>
+            <td align="left">Complex PSA</td>
+            <td align="left">Complex PSA</td>
+        </tr>
+        <tr>
+            <td align="left">BSA</td>
+            <td align="left">Total PSA M165</td>
+            <td align="left">Total PSA M165</td>
+            <td align="left">Total PSA M165</td>
+            <td align="left">Total PSA M165</td>
+        </tr>
+        <tr>
+            <td align="left">BSA</td>
+            <td align="left">BSA</td>
+            <td align="left">BSA</td>
+            <td align="left">BSA</td>
+            <td align="left">.02 ng/ml anti</td>
+        </tr>
+    </tbody>
+</table>
+<programlisting xml:space="preserve"><emphasis role="bold">Reagents
+</emphasis></programlisting>
+<programlisting xml:space="preserve">Group 1= .02 ng/ml anti
+</programlisting>
+<programlisting xml:space="preserve">Group 2= BSA
+</programlisting>
+<programlisting xml:space="preserve">Group 3= Complex PSA
+</programlisting>
+<programlisting xml:space="preserve">Group 4= Free PSA M167
+</programlisting>
+<programlisting xml:space="preserve">Group 5= Total PSA M165
+</programlisting>
+</chapter>

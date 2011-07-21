@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<chapter>
+<?dbhtml filename="summarystat-003.html"?>
+<title>Assay</title>
+
+<para>This will have the protocol used to obtain results (e.g 1. Antigen Incubation 
+30 min. etc.)
+<phrase xml:space="preserve"> </phrase>
+</para>
+</chapter>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<chapter>
+<?dbhtml filename="summarystat-006.html"?>
+<title>Group 3 (cPSA)</title>
+cPSA: CV Graph of LInear Profile
+<mediaobject>
+    <imageobject>
+        <imagedata fileref="./summarystat_html_files/image-007-hg.png"/>
+    </imageobject>
+</mediaobject>
+<table border="1" cellspacing="0" fastRender="1">
+    <caption>Values for Linear Profile CV</caption>
+    <col colname="0" colnum="0" width="1*"/>
+    <col colname="1" colnum="1" width="1*"/>
+    <col colname="2" colnum="2" width="1*"/>
+    <col colname="3" colnum="3" width="1*"/>
+    <col colname="4" colnum="4" width="1*"/>
+    <col colname="5" colnum="5" width="1*"/>
+    <col colname="6" colnum="6" width="1*"/>
+    <col colname="7" colnum="7" width="1*"/>
+    <col colname="8" colnum="8" width="1*"/>
+    <col colname="9" colnum="9" width="1*"/>
+    <col colname="10" colnum="10" width="1*"/>
+    <col colname="11" colnum="11" width="1*"/>
+    <col colname="12" colnum="12" width="1*"/>
+    <col colname="13" colnum="13" width="1*"/>
+    <thead>
+        <tr>
+            <th align="left">NaN</th>
+            <th align="left">NaN</th>
+            <th align="left">NaN</th>
+            <th align="left">2</th>
+            <th align="left">2</th>
+            <th align="left">2</th>
+            <th align="left">1.2000</th>
+            <th align="left">1.4065</th>
+            <th align="left">1.1961</th>
+            <th align="left">0.7649</th>
+            <th align="left">0.4870</th>
+            <th align="left">0.3809</th>
+            <th align="left">0.3012</th>
+            <th align="left">25.9270</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">2</td>
+            <td align="left">1.4370</td>
+            <td align="left">0.2410</td>
+            <td align="left">0.0754</td>
+            <td align="left">0.0466</td>
+            <td align="left">0.0476</td>
+            <td align="left">0.0448</td>
+            <td align="left">5.4590</td>
+        </tr>
+        <tr>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">2</td>
+            <td align="left">1.9240</td>
+            <td align="left">1.2306</td>
+            <td align="left">0.6936</td>
+            <td align="left">0.4738</td>
+            <td align="left">0.3793</td>
+            <td align="left">0.3405</td>
+            <td align="left">13.7310</td>
+        </tr>
+        <tr>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">1.0577</td>
+            <td align="left">56.4892</td>
+            <td align="left">0.3446</td>
+            <td align="left">0.2409</td>
+            <td align="left">0.2320</td>
+            <td align="left">1.5086</td>
+            <td align="left">138.2869</td>
+            <td align="left">138.2869</td>
+        </tr>
+        <tr>
+            <td align="left">2</td>
+            <td align="left">1.2662</td>
+            <td align="left">0.9646</td>
+            <td align="left">0.6662</td>
+            <td align="left">0.5326</td>
+            <td align="left">0.5286</td>
+            <td align="left">0.5293</td>
+            <td align="left">0.5246</td>
+            <td align="left">0.4965</td>
+            <td align="left">0.5863</td>
+            <td align="left">0.5436</td>
+            <td align="left">0.5134</td>
+            <td align="left">0.4639</td>
+            <td align="left">42.6613</td>
+        </tr>
+    </tbody>
+</table>
+</chapter>

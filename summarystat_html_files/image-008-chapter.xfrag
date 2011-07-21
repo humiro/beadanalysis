@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<chapter>
+<?dbhtml filename="summarystat-007.html"?>
+<title>Group 4 ( Free Psa)</title>
+fPSA: CV Graph of LInear Profile
+<mediaobject>
+    <imageobject>
+        <imagedata fileref="./summarystat_html_files/image-009-hg.png"/>
+    </imageobject>
+</mediaobject>
+<table border="1" cellspacing="0" fastRender="1">
+    <caption>Values for Linear Profile CV</caption>
+    <col colname="0" colnum="0" width="1*"/>
+    <col colname="1" colnum="1" width="1*"/>
+    <col colname="2" colnum="2" width="1*"/>
+    <col colname="3" colnum="3" width="1*"/>
+    <col colname="4" colnum="4" width="1*"/>
+    <col colname="5" colnum="5" width="1*"/>
+    <col colname="6" colnum="6" width="1*"/>
+    <col colname="7" colnum="7" width="1*"/>
+    <col colname="8" colnum="8" width="1*"/>
+    <col colname="9" colnum="9" width="1*"/>
+    <col colname="10" colnum="10" width="1*"/>
+    <col colname="11" colnum="11" width="1*"/>
+    <col colname="12" colnum="12" width="1*"/>
+    <col colname="13" colnum="13" width="1*"/>
+    <thead>
+        <tr>
+            <th align="left">NaN</th>
+            <th align="left">NaN</th>
+            <th align="left">NaN</th>
+            <th align="left">2</th>
+            <th align="left">2</th>
+            <th align="left">1.5231</th>
+            <th align="left">1.7492</th>
+            <th align="left">1.5748</th>
+            <th align="left">1.4163</th>
+            <th align="left">0.8519</th>
+            <th align="left">0.4606</th>
+            <th align="left">0.3611</th>
+            <th align="left">0.2898</th>
+            <th align="left">25.9520</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="left">NaN</td>
+            <td align="left">NaN</td>
+            <td align="left">0.9316</td>
+            <td align="left">0.6600</td>
+            <td align="left">0.4902</td>
+            <td align="left">0.3943</td>
+            <td align="left">0.3444</td>
+            <td align="left">0.3252</td>
+            <td align="left">0.3001</td>
+            <td align="left">0.2877</td>
+            <td align="left">0.2790</td>
+            <td align="left">0.2745</td>
+            <td align="left">0.2675</td>
+            <td align="left">26.4428</td>
+        </tr>
+        <tr>
+            <td align="left">1.5357</td>
+            <td align="left">0.3048</td>
+            <td align="left">0.2582</td>
+            <td align="left">0.2318</td>
+            <td align="left">0.2321</td>
+            <td align="left">0.2310</td>
+            <td align="left">0.1737</td>
+            <td align="left">0.1134</td>
+            <td align="left">0.0481</td>
+            <td align="left">0.0016</td>
+            <td align="left">0.0014</td>
+            <td align="left">1.9065e-004</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+        </tr>
+        <tr>
+            <td align="left">0.3390</td>
+            <td align="left">0.2959</td>
+            <td align="left">0.1871</td>
+            <td align="left">0.0089</td>
+            <td align="left">4.6450e-004</td>
+            <td align="left">7.6397e-005</td>
+            <td align="left">9.9285e-005</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">0.4017</td>
+            <td align="left">42.9009</td>
+            <td align="left">42.9009</td>
+        </tr>
+        <tr>
+            <td align="left">0.4023</td>
+            <td align="left">0.2488</td>
+            <td align="left">0.0072</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+        </tr>
+    </tbody>
+</table>
+<para>
+    <emphasis role="bold">Dose Curves for Free PSA (LP values; normal)</emphasis>
+    <phrase xml:space="preserve"> </phrase>
+</para>
+</chapter>
