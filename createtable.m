@@ -1,8 +1,9 @@
-function [namechip]=createtable(rmfile,,chiptype)
+function [namechip,lines]=createtable(rmfile,chiptype)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 %change this to make if for a 3by4 or 4by5
-lines=textread(rmfile,'%s','delimiter','\n');
+rmfilename=char(strcat(rmfile,'\README.txt'))
+lines=textread(rmfilename,'%s','delimiter','\n');
 
 numlines=str2num(char(lines(1)));
 

@@ -86,11 +86,11 @@ while aidx <= length(y)
     for i = 0:cols-1
         if aidx+i <= length(y)
             start = buf + buf*i + awidth*i;
-            apos{aidx+i} = [start 1-rowidx-.92 awidth .85];
+            apos{aidx+i} = [start 1-rowidx-.93 awidth .85];
             a{aidx+i} = axes('position', apos{aidx+i});
         end
     end
-    rowidx = rowidx + 1; % increment row
+    rowidx = rowidx + 1.01568; % increment row
     aidx = aidx + cols;  % increment index of axes
 end
 

@@ -22,7 +22,7 @@ function varargout = singleset(varargin)
 
 % Edit the above text to modify the response to help singleset
 
-% Last Modified by GUIDE v2.5 19-Jul-2011 14:10:33
+% Last Modified by GUIDE v2.5 22-Jul-2011 10:38:05
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -60,7 +60,7 @@ if ismac
 end
 
 handles.output = hObject;
-
+set(handles.chipsize,'SelectionChangeFcn',@chipsizeSelect_buttongroup_SelectionChangeFcn);
 % Update handles structure
 guidata(hObject, handles);
 
@@ -257,7 +257,7 @@ function getdata_Callback(hObject, eventdata, handles)
 % hObject    handle to getdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global showmethods foldname conc exposures ;
+global showmethods foldname conc exposures csval groupnames;
 
 [conc,exposures]=makearrays(foldname);
 methodsselected=get(handles.methodsused,'Value');
@@ -265,6 +265,17 @@ methods=['Linear Profile  ';'cAOI            ';'Donut           ';'Circular Prof
 methodsstr=cellstr(methods);
 showmethods=methodsstr(methodsselected);      
 set(handles.method,'String',char(showmethods));
+
+[namechip,lines]=createtable(foldname,csval);
+numlines=str2num(char(lines(1)));
+groupnames=cell(numlines,1);
+startlines=numlines+2;
+
+for n=0:(numlines-1)
+    groupnames{n+1,1}=char(lines(startlines+n));
+end
+set(handles.groupdd,'String',char(groupnames));
+
 % [LP LPSD LPCV cAOI cAOISD cAOICV]=takearray(conc,foldname,exposures);
 if numel(get(handles.showfoldname,'String'))>1
     set(handles.method,'Enable','On')
@@ -274,6 +285,8 @@ if numel(get(handles.showfoldname,'String'))>1
     set(handles.showdata,'Enable','On') 
     set(handles.reportbtn,'Enable','On')
     set(handles.oneexp,'Enable','On')
+    set(handles.rb5x4,'Enable','On')
+    set(handles.rb3x4,'Enable','On')    
 else
     errordlg('Please select a directory file');
 end
@@ -314,11 +327,14 @@ else
     uklpcv=[];
 end
 
-
-if drtype==7
-    CV_Graph(LPCV,conc, exposures, groupselected);
+if (drtype==1)
+    errordlg('Please select a group or type of dose response');
 else
-    [ y sd ] = beadfigure(intensityvalues,sdvalues,zerolp,zerolpsd,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd);
+        if drtype==7
+            CV_Graph(LPCV,conc, exposures, groupselected);
+        else
+            [ y sd ] = beadfigure(intensityvalues,sdvalues,zerolp,zerolpsd,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd);
+        end
 end
  guidata(hObject,handles)
 
@@ -359,3 +375,23 @@ y=yinv';
 figure
 dose_response(conc,y);
 guidata(hObject,handles)
+
+function chipsizeSelect_buttongroup_SelectionChangeFcn(hObject, eventdata)
+ global csval;
+%retrieve GUI data, i.e. the handles structure
+handles = guidata(hObject); 
+ 
+switch get(eventdata.NewValue,'Tag')   % Get Tag of selected object
+    case 'rb5x4'
+      %execute this code when fontsize08_radiobutton is selected
+      csval=1;
+ 
+    case 'rb3x4'
+      %execute this code when fontsize12_radiobutton is selected
+      csval=2;
+    otherwise
+       % Code for when there is no match.
+ 
+end
+%updates the handles structure
+guidata(hObject, handles);
