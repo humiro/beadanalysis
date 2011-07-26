@@ -1,4 +1,4 @@
-function [ y sd ] = beadfigure(methodI,methodSD,zeroI,zeroSD,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd)
+function [ y sd fintitle] = beadfigure(methodI,methodSD,zeroI,zeroSD,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd)
 % Created by Evan Brooks, evan.brooks@wpafb.af.mil
 %
 % Adaptation of scrollplotdemo by Steven Lord:
@@ -19,7 +19,7 @@ cols = 2;
 numberofexposures=exposures;
 % create 5 data sets to plot
 x=conc;
-whichgroup=(groupselected-1);
+whichgroup=(groupselected);
 raw= methodI{whichgroup};
 rawSD=methodSD{whichgroup};
 skipsize=length(raw);
@@ -75,7 +75,7 @@ fpos = get(gcf, 'position');
 scrnsz = get(0, 'screensize');
 fwidth = min([fpos(3)*cols, scrnsz(3)-20]);
 fheight = fwidth/cols*.75; % maintain aspect ratio
-set(gcf, 'position', [10 fpos(2)+ fwidth fheight]);
+set(gcf, 'position', [10 fpos(2) fwidth fheight]);
 
 % setup all axes
 buf = .15/cols; % buffer between axes & between left edge of figure and axes
@@ -86,7 +86,7 @@ while aidx <= length(y)
     for i = 0:cols-1
         if aidx+i <= length(y)
             start = buf + buf*i + awidth*i;
-            apos{aidx+i} = [start+.1 1-rowidx-.93 awidth .85];
+            apos{aidx+i} = [start 1-rowidx-.92 awidth .85];
             a{aidx+i} = axes('position', apos{aidx+i});
         end
     end
@@ -97,7 +97,7 @@ end
 % make plots
 for s=1:skipsize
     num=num2str(numberofexposures(s));
-    sptit=strcat('Exposures ',num,'sec');
+    sptit=strcat('Exposure ',' ',num,'sec');
     yval=y(:,s);
     ysdval=rawSD(:,s);
     newy=yval';
@@ -138,7 +138,8 @@ for s=1:skipsize
         eqstrg='NONE';
         plot(prediction_value,inputsamplevalue(s),'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','r');
     end
-    title({sptit,eqstrg}),
+    fintitle=strcat(sptit,':',eqstrg);
+    title(fintitle);
     hold off;
 end
 suptitle(figtitle);

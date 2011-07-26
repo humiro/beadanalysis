@@ -19,7 +19,7 @@ cols = numel(exposures)/2;
 numberofexposures=exposures;
 % create 5 data sets to plot
 x=conc;
-whichgroup=(groupselected-1);
+whichgroup=(groupselected);
 raw= methodI{whichgroup};
 rawSD=methodSD{whichgroup};
 skipsize=length(raw);
@@ -136,7 +136,8 @@ for s=startnm:lastnm
         eqstrg='NONE';
         plot(prediction_value,inputsamplevalue(s),'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','r');
     end
-    title({sptit,eqstrg}),
+    fintitle=strcat(sptit,':',eqstrg);
+    title(fintitle),
     hold off;
 
 end

@@ -78,6 +78,29 @@ varargout{1} = handles.output;
 
 
 
+function chipsizeSelect_buttongroup_SelectionChangeFcn(hObject, eventdata)
+ global csval;
+%retrieve GUI data, i.e. the handles structure
+handles = guidata(hObject); 
+csval=1;
+switch get(eventdata.NewValue,'Tag')   % Get Tag of selected object
+    case 'rb5x4'
+      %execute this code when fontsize08_radiobutton is selected
+      csval=1;
+ 
+    case 'rb3x4'
+      %execute this code when fontsize12_radiobutton is selected
+      csval=2;
+    otherwise
+        errordlg('Please select chip size') 
+       % Code for when there is no match.
+ 
+end
+%updates the handles structure
+guidata(hObject, handles);
+
+
+
 % --- Executes on selection change in drtype.
 function drtype_Callback(hObject, eventdata, handles)
 % hObject    handle to drtype (see GCBO)
@@ -285,8 +308,7 @@ if numel(get(handles.showfoldname,'String'))>1
     set(handles.showdata,'Enable','On') 
     set(handles.reportbtn,'Enable','On')
     set(handles.oneexp,'Enable','On')
-    set(handles.rb5x4,'Enable','On')
-    set(handles.rb3x4,'Enable','On')    
+ 
 else
     errordlg('Please select a directory file');
 end
@@ -299,7 +321,7 @@ function showdata_Callback(hObject, eventdata, handles)
 % hObject    handle to showdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global showmethods foldname conc exposures methodvalue numofmethods intensityvalues groupselected;
+global showmethods fintitle foldname conc exposures methodvalue numofmethods intensityvalues groupselected zerolp zerolpsd;
 
 groupselected=get(handles.groupdd,'Value');
 drtype=get(handles.drtype,'Value');
@@ -333,7 +355,7 @@ else
         if drtype==7
             CV_Graph(LPCV,conc, exposures, groupselected);
         else
-            [ y sd ] = beadfigure(intensityvalues,sdvalues,zerolp,zerolpsd,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd);
+            [ y sd fintitle] = beadfigure(intensityvalues,sdvalues,zerolp,zerolpsd,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd);
         end
 end
  guidata(hObject,handles)
@@ -357,10 +379,12 @@ function oneexp_Callback(hObject, eventdata, handles)
 % hObject    handle to oneexp (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global conc exposures intensityvalues groupselected sexpval;
+global conc exposures fintitle intensityvalues groupselected sexpval zerolp zerolpsd;
 dlgprompt='Select exposure:';
 singleexp=inputdlg(dlgprompt);
 chsingleexp=char(singleexp);
+lodzerolpvalues=zerolp+3*zerolpsd;
+inputsamplevalue=lodzerolpvalues(groupselected,:);
 if str2num(chsingleexp) ~= exposures(:)
  errordlg('Please select approprieate exposure') 
 end
@@ -369,29 +393,31 @@ for t=1:numel(exposures)
         sexpval=t;
     end
 end
-yholder=intensityvalues{groupselected-1};
+yholder=intensityvalues{groupselected};
 yinv=yholder(:,sexpval)
 y=yinv';
+sptit=strcat('Exposure ',str2num(chsingleexp),'sec');
+
 figure
-dose_response(conc,y);
+[beta_est mse conc_graph intensity_graph]=dose_response(conc,y);
+% if numel(beta_est)>1
+%         [prediction_value] = prediction(beta_est,conc_graph,inputsamplevalue(sexpval));
+%         pvstring=num2str(prediction_value);
+%         plot(prediction_value,inputsamplevalue(sexpval),'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','g');
+%         strg=strcat('LOD =', pvstring);
+%         text(prediction_value,inputsamplevalue(sexpval)+1,strg,'FontSize',12)
+%         p=num2str(beta_est(1));
+%         b=num2str(beta_est(2));
+%         c=num2str(beta_est(3));
+%         d=num2str(beta_est(4));
+%         eqstrg=strcat('a=', p, 'b=', b, 'c=', c,'d=', d);
+% else 
+%         prediction_value=0;
+%         eqstrg='NONE';
+%         plot(prediction_value,inputsamplevalue(sexpval),'gd', 'markersize',10,'markeredgecolor','k','markerfacecolor','r');
+% end
+% fintitle=strcat({sptit,eqstrg});
+% title(fintitle);
 guidata(hObject,handles)
 
-function chipsizeSelect_buttongroup_SelectionChangeFcn(hObject, eventdata)
- global csval;
-%retrieve GUI data, i.e. the handles structure
-handles = guidata(hObject); 
- 
-switch get(eventdata.NewValue,'Tag')   % Get Tag of selected object
-    case 'rb5x4'
-      %execute this code when fontsize08_radiobutton is selected
-      csval=1;
- 
-    case 'rb3x4'
-      %execute this code when fontsize12_radiobutton is selected
-      csval=2;
-    otherwise
-       % Code for when there is no match.
- 
-end
-%updates the handles structure
-guidata(hObject, handles);
+
