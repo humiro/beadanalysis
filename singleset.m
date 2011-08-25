@@ -53,7 +53,7 @@ function singleset_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for singleset
 if ispc
-    path(path, 'U:\matlab-analysis\logistic');
+    path(path, 'C:\Users\Humberto\Desktop\matlab-analysis\logistic');
 end
 if ismac
     path(path, '/Users/humberto/beadanalysis/matlab-analysis/logistic');
@@ -280,20 +280,26 @@ function getdata_Callback(hObject, eventdata, handles)
 % hObject    handle to getdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global showmethods foldname conc exposures csval groupnames;
+global hms showmethods foldname conc exposures csval groupnames;
 
-[conc,exposures]=makearrays(foldname);
+
 methodsselected=get(handles.methodsused,'Value');
-methods=['Linear Profile  ';'cAOI            ';'Donut           ';'Circular Profile';'Fixed           ';'Integrated cAOI ';'Integrated Donut';'Integrated CP   ';'Integrated Fixed'];
+hms=1;
+for i=1:numel(methodsselected)
+    if (methodsselected(i)==3)
+       hms=2;
+    end
+end
+
+methods=['Linear Profile  ';'cAOI            ';'Radial          ';'Donut           ';'Circular Profile';'Fixed           ';'Integrated cAOI ';'Integrated Donut';'Integrated CP   ';'Integrated Fixed'];
 methodsstr=cellstr(methods);
 showmethods=methodsstr(methodsselected);      
 set(handles.method,'String',char(showmethods));
-
 [namechip,lines]=createtable(foldname,csval);
 numlines=str2num(char(lines(1)));
 groupnames=cell(numlines,1);
 startlines=numlines+2;
-
+[conc,exposures]=makearrays(foldname,lines);
 for n=0:(numlines-1)
     groupnames{n+1,1}=char(lines(startlines+n));
 end
@@ -321,15 +327,15 @@ function showdata_Callback(hObject, eventdata, handles)
 % hObject    handle to showdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global showmethods fintitle foldname conc exposures methodvalue numofmethods intensityvalues groupselected zerolp zerolpsd;
+global hms showmethods fintitle foldname conc exposures methodvalue numofmethods intensityvalues groupselected zerolp zerolpsd;
 
 groupselected=get(handles.groupdd,'Value');
 drtype=get(handles.drtype,'Value');
 erbarvalue=get(handles.errorbars,'Value');
 methodvalue=get(handles.method,'Value');
 numofmethods=numel(showmethods);
-[intensityvalues sdvalues cvvalues]=takearray7142011(conc,foldname,exposures,numofmethods,methodvalue);
-[zerolp zerolpsd zerolpcv] = zerounknown(foldname,exposures,1,numofmethods,methodvalue);
+[intensityvalues sdvalues cvvalues]=takearray7142011(hms,conc,foldname,exposures,numofmethods,methodvalue);
+[zerolp zerolpsd zerolpcv] = zerounknown(hms,foldname,exposures,1,numofmethods,methodvalue);
 
 numofunknown=str2num(get(handles.numberofunknown,'String'));
 if numofunknown>0
@@ -353,7 +359,7 @@ if (drtype==1)
     errordlg('Please select a group or type of dose response');
 else
         if drtype==7
-            CV_Graph(LPCV,conc, exposures, groupselected);
+            CV_Graph(cvvalues,conc, exposures, groupselected);
         else
             [ y sd fintitle] = beadfigure(intensityvalues,sdvalues,zerolp,zerolpsd,conc,exposures,groupselected,drtype,erbarvalue,uklp,uklpsd);
         end
@@ -394,8 +400,9 @@ for t=1:numel(exposures)
     end
 end
 yholder=intensityvalues{groupselected};
-yinv=yholder(:,sexpval)
-y=yinv';
+yinv=yholder(:,sexpval);
+yinv
+y=yinv'
 sptit=strcat('Exposure ',str2num(chsingleexp),'sec');
 
 figure

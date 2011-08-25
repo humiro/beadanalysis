@@ -12,7 +12,7 @@ function  CV_Graph(inputCV, conc, exposures, gs);
 
 % a = length(exposure1) * length(concentration);
 % b = length(CVDATA.data(:,3));
-ycv=inputCV{gs-1};
+ycv=inputCV{gs};
 figure;
 bar3(ycv)
 set(gca,'YTickLabel',conc)

@@ -1,4 +1,4 @@
-function [intensityvalues sdvalues cvvalues]=takearray7142011(xval,folder,exposures,numofmethods,whichmethod)
+function [intensityvalues sdvalues cvvalues]=takearray7142011(hms,xval,folder,exposures,numofmethods,whichmethod)
 %create matrices to store LP values
 conc=xval;
 namefolder=char(folder);
@@ -29,10 +29,17 @@ grp6lpcv=zeros(numel(conc),numel(exposures));
 grp7lpcv=zeros(numel(conc),numel(exposures));
 grp8lpcv=zeros(numel(conc),numel(exposures));
 
-locofsumfiles=dir(namefolder);
+% locofsumfiles=dir(namefolder);
 % storelocations= cell(1,numel(locofsumfiles));
-skipnumber=numofmethods*3+3;
-startnumber=skipnumber+whichmethod+1;
+if hms==1
+    skipnumber=numofmethods*3+3;
+else
+    skipnumber=numofmethods*3+4;
+end
+
+startnumber=(skipnumber+((whichmethod-1)*3))+2;
+
+
 
 
 for r=1:numel(conc);

@@ -44,7 +44,7 @@ for i=1:skipsize
 end
 
 lodzerolpvalues=zeroI+3*zeroSD;
-inputsamplevalue=lodzerolpvalues(whichgroup,:);
+
 if drtype==2
     y=raw;
     lodzerolpvalues=zeroI+3*zeroSD;
@@ -52,6 +52,7 @@ if drtype==2
 end
 if drtype==3
     y=rawminneg;
+    lodzerolpvalues=rawzerominneg+3*zeroSD;
     figtitle='Raw Data - Negative Dose Response';
 end
 if drtype==4
@@ -66,6 +67,8 @@ if drtype==6
     y=cvgraph;
     figtitle='CV Graph';
 end
+
+inputsamplevalue=lodzerolpvalues(whichgroup,:);
 %determine raw - negative 
 % determine required rows of plots
 rows = ceil(length(y)/cols);
@@ -107,6 +110,7 @@ for s=1:skipsize
     hold on;
     if numel(beta_est)>1
         [prediction_value] = prediction(beta_est,conc_graph,inputsamplevalue(s));
+        inputsamplevalue(s)
 %         if prediction_value=='Unknown'
 %             pvstring='Unknown';
 %             prediction_value=100;
@@ -142,7 +146,7 @@ for s=1:skipsize
     title(fintitle);
     hold off;
 end
-suptitle(figtitle);
+% suptitle(figtitle);
 % axes(a{2}), plot(x,y{2}), title('cosine'), xlabel('x'), ylabel('cos(x)')
 % axes(a{3}), plot(x,y{3}), title('tangent'), xlabel('x'), ylabel('tan(x)')
 % axes(a{4}), plot(x,y{4}), title('x^2'), xlabel('x'), ylabel('x^2')

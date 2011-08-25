@@ -1,6 +1,7 @@
-function [LP]=takearray(xval,folder,exposures)
+function [LP LPSD LPCV cAOI cAOISD cAOICV]=takearray(xval,folder,exposures)
 %create matrices to store LP values
 conc=xval;
+namefolder=char(folder);
 grp1lp=zeros(numel(conc),numel(exposures));
 grp2lp=zeros(numel(conc),numel(exposures));
 grp3lp=zeros(numel(conc),numel(exposures));
@@ -55,12 +56,20 @@ grp6caoicv=zeros(numel(conc),numel(exposures));
 grp7caoicv=zeros(numel(conc),numel(exposures));
 grp8caoicv=zeros(numel(conc),numel(exposures));
 
-locofsumfiles=dir(folder);
+locofsumfiles=dir(namefolder);
 % storelocations= cell(1,numel(locofsumfiles));
 
 for r=1:numel(conc);
-     testlc= sprintf('\\%1.1f ngperml\\Results\\',conc(r));
-    fpofname=strcat(folder,testlc);
+    if ispc
+        try
+        testlc= sprintf('\\%1.1f ngperml\\Results\\',conc(r));
+        catch
+            
+    end
+    if ismac
+        testlc= sprintf('//%1.1f ngperml//Results//',conc(r));
+    end
+    fpofname=strcat(namefolder,testlc);
     summaryfiles=dir(fullfile(fpofname,'*summary*.txt'));
     storedfiles=cell(1,numel(summaryfiles));
     for h = 1:numel(summaryfiles) 
@@ -116,27 +125,23 @@ for r=1:numel(conc);
             grp7caoisd(r,t)=str2double(char(sumlines(69)));
             grp8caoisd(r,t)=str2double(char(sumlines(78)));
             %store CAOI CV values
-            grp1caoicv(r,t)=str2double(char(sumlines(15)));
-            grp2caoicv(r,t)=str2double(char(sumlines(24)));
-            grp3caoicv(r,t)=str2double(char(sumlines(33)));
-            grp4caoicv(r,t)=str2double(char(sumlines(42)));
-            grp5caoicv(r,t)=str2double(char(sumlines(51)));
-            grp6caoicv(r,t)=str2double(char(sumlines(60)));
-            grp7caoisd(r,t)=str2double(char(sumlines(69)));
-            grp8caoisd(r,t)=str2double(char(sumlines(78)));
+            grp1caoicv(r,t)=str2double(char(sumlines(16)));
+            grp2caoicv(r,t)=str2double(char(sumlines(25)));
+            grp3caoicv(r,t)=str2double(char(sumlines(34)));
+            grp4caoicv(r,t)=str2double(char(sumlines(43)));
+            grp5caoicv(r,t)=str2double(char(sumlines(52)));
+            grp6caoicv(r,t)=str2double(char(sumlines(61)));
+            grp7caoicv(r,t)=str2double(char(sumlines(70)));
+            grp8caoicv(r,t)=str2double(char(sumlines(79)));
        end
 end
 
 LP={grp1lp,grp2lp,grp3lp,grp4lp,grp5lp,grp6lp,grp7lp,grp8lp};
-%LOD
-% LODlc=strcat(folder,'\0 ngperml\Results\')
-% fclose(grp1id);
-% fclose(grp2id);
-% fclose(grp3id);
-% fclose(grp4id);
-% fclose(grp5id);
-% fclose(grp6id);
-% fclose(grp7id);
-% fclose(grp8id);
+LPSD={grp1lpsd,grp2lpsd,grp3lpsd,grp4lpsd,grp5lpsd,grp6lpsd,grp7lpsd,grp8lpsd};
+LPCV={grp1lpcv,grp2lpcv,grp3lpcv,grp4lpcv,grp5lpcv,grp6lpcv,grp7lpcv,grp8lpcv};
+cAOI={grp1caoi,grp2caoi,grp3caoi,grp4caoi,grp5caoi,grp6caoi,grp7caoi,grp8caoi};
+cAOISD={grp1caoisd,grp2caoisd,grp3caoisd,grp4caoisd,grp5caoisd,grp6caoisd,grp7caoisd,grp8caoisd};
+cAOICV={grp1caoicv,grp2caoicv,grp3caoicv,grp4caoicv,grp5caoicv,grp6caoicv,grp7caoicv,grp8caoicv};
+
 end
 

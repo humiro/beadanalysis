@@ -1,4 +1,4 @@
-function  [outputlp outputsd outputcv] = zerounknown(folder,exposures,dist,numofmethods,whichmethod)
+function  [outputlp outputsd outputcv] = zerounknown(hms,folder,exposures,dist,numofmethods,whichmethod)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -10,9 +10,13 @@ outputsd=zeros(8,numel(exposures));
 outputcv=zeros(8,numel(exposures));
 
 %setting up counter values
-skipnumber=numofmethods*3+3 ; 
-startnumber=skipnumber+whichmethod+1;
+if hms==1
+    skipnumber=numofmethods*3+3;
+else
+    skipnumber=numofmethods*3+4;
+end
 
+startnumber=(skipnumber+((whichmethod-1)*3))+2;
 %locofsumfiles=dir(folder);
 for w=1:numel(folder)
 % storelocations= cell(1,numel(locofsumfiles));
@@ -20,7 +24,7 @@ if ispc
     if(dist==1)
     testlc= '\0.0 ngperml\Results\';
     else
-        teslc='\Results\'
+        teslc='\Results\';
     end
 end
 if ismac
